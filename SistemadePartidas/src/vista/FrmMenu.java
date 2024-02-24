@@ -128,6 +128,11 @@ public class FrmMenu extends javax.swing.JFrame {
 
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/admin_book.png"))); // NOI18N
         jMenuItem5.setText("Gestionar Libros");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem5);
 
         jMenuBar1.add(jMenu2);
@@ -138,6 +143,11 @@ public class FrmMenu extends javax.swing.JFrame {
 
         jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/new_folder.png"))); // NOI18N
         jMenuItem6.setText("Nueva Partida");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu7.add(jMenuItem6);
 
         jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/admin_folder.png"))); // NOI18N
@@ -194,6 +204,18 @@ public class FrmMenu extends javax.swing.JFrame {
         jDesktopPane_menu.add(internalLibro);
         internalLibro.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+       NewJInternalFrame_GestLibro interGestLibro=new NewJInternalFrame_GestLibro();
+       jDesktopPane_menu.add(interGestLibro);
+       interGestLibro.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+       JInternalFrameAgregarPartida internalPartida=new JInternalFrameAgregarPartida();
+       jDesktopPane_menu.add(internalPartida);
+       internalPartida.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments

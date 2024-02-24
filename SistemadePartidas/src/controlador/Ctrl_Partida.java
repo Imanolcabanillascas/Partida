@@ -4,25 +4,30 @@
  */
 package controlador;
 
-
-import java.sql.PreparedStatement;
 import java.sql.Connection;
-import java.sql.SQLException;
-import modelo.Libro;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import modelo.Partida;
 
 /**
  *
  * @author LENOVO
  */
-public class Ctrl_Libro {
-    public boolean guardar(Libro objeto){
+public class Ctrl_Partida {
+   public boolean guardar(Partida objeto){
         boolean respuesta=false;
         Connection cn= conexion.conexion.conectar();
         try {
-            PreparedStatement consulta=cn.prepareStatement("insert into libro value(?,?)");
+            PreparedStatement consulta=cn.prepareStatement("insert into libro value(?,?,?,?,?,?,?)");
        consulta.setInt(1,0);
-       consulta.setString(2, objeto.getAnio());
+       consulta.setString(2, objeto.getDni());
+       consulta.setString(3, objeto.getNombres());
+       consulta.setString(4, objeto.getApellido_pat());
+       consulta.setString(5, objeto.getApellido_mat());
+       consulta.setString(6, objeto.getFolio());
+       consulta.setInt(7, objeto.getId_Libro());
        if(consulta.executeUpdate()>0){
            respuesta=true;
        }
@@ -30,32 +35,31 @@ public class Ctrl_Libro {
             System.err.println("Error al conectar");
         }
         return respuesta;
-    }
-    public boolean existeLibroConAnio(String anio) {
+    }   
+       public boolean existeLibroConAnio(String dni) {
         boolean existe = false;
         Connection cn = conexion.conexion.conectar();
 
         try {
-            String consultaSQL = "SELECT * FROM libro WHERE anio = ?";
+            String consultaSQL = "SELECT * FROM partida WHERE dni = ?";
             PreparedStatement consulta = cn.prepareStatement(consultaSQL);
-            consulta.setString(1, anio);
-
+            consulta.setString(1, dni);
             ResultSet resultado = consulta.executeQuery();
             existe = resultado.next();
 
         } catch (SQLException e) {
-            System.err.println("Error al consultar la existencia del libro");
+            System.err.println("Error al consultar la existencia del dni");
         }
 
         return existe;
     }
-     public boolean eliminar(int idLibro) {
+       public boolean eliminar(int idPartida) {
         boolean respuesta = false;
         Connection cn = conexion.conexion.conectar();
         try {
 
             PreparedStatement consulta = cn.prepareStatement(
-                    "delete from libro where id_Libro ='" + idLibro + "'");
+                    "delete from partida where id_Partida ='" + idPartida + "'");
             consulta.executeUpdate();
            
             if (consulta.executeUpdate() > 0) {
@@ -65,18 +69,23 @@ public class Ctrl_Libro {
             cn.close();
 
         } catch (SQLException e) {
-            System.out.println("Error al eliminar libro: " + e);
+            System.out.println("Error al eliminar partida: " + e);
         }
 
         return respuesta;
     }
-   public boolean actualizar(Libro objeto, int idLibro) {
+       public boolean actualizar(Partida objeto, int idPartida) {
         boolean respuesta = false;
         Connection cn = conexion.conexion.conectar();
         try {
 
-            PreparedStatement consulta = cn.prepareStatement("update libro set anio=? where id_Libro ='" + idLibro + "'");
-            consulta.setString(1, objeto.getAnio());
+            PreparedStatement consulta = cn.prepareStatement("update partida set dni=?,nombres=?,apellido_pat=?,apellido_mat=?,folio=?,id_Libro=? where id_Partida ='" + idPartida + "'");
+            consulta.setString(1, objeto.getDni());
+            consulta.setString(1, objeto.getNombres());
+            consulta.setString(1, objeto.getApellido_pat());
+            consulta.setString(1, objeto.getApellido_mat());
+            consulta.setString(1, objeto.getFolio());
+            consulta.setInt(1, objeto.getId_Libro());
            
             if (consulta.executeUpdate() > 0) {
                 respuesta = true;
