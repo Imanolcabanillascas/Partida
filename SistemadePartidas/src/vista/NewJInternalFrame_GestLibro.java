@@ -74,7 +74,12 @@ public class NewJInternalFrame_GestLibro extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable_libros.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTable_libros.setGridColor(new java.awt.Color(255, 255, 255));
+        jTable_libros.setShowHorizontalLines(true);
+        jTable_libros.setShowVerticalLines(true);
         jScrollPane1.setViewportView(jTable_libros);
+        jTable_libros.getAccessibleContext().setAccessibleDescription("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -94,8 +99,9 @@ public class NewJInternalFrame_GestLibro extends javax.swing.JInternalFrame {
         jLabel2.setText("ADMINISTRAR LIBROS");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, -1, -1));
 
-        btn_actualizar.setBackground(new java.awt.Color(0, 204, 0));
+        btn_actualizar.setBackground(new java.awt.Color(0, 153, 51));
         btn_actualizar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_actualizar.setForeground(new java.awt.Color(255, 255, 255));
         btn_actualizar.setText("Actualizar");
         btn_actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,7 +110,7 @@ public class NewJInternalFrame_GestLibro extends javax.swing.JInternalFrame {
         });
         getContentPane().add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 170, 100, 30));
 
-        btn_eliminar.setBackground(new java.awt.Color(153, 0, 0));
+        btn_eliminar.setBackground(new java.awt.Color(255, 0, 51));
         btn_eliminar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_eliminar.setForeground(new java.awt.Color(255, 255, 255));
         btn_eliminar.setText("Eliminar");

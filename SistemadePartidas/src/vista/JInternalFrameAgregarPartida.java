@@ -4,11 +4,17 @@
  */
 package vista;
 
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import conexion.conexion;
+import controlador.Ctrl_Partida;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import modelo.Partida;
+
 /**
  *
  * @author LENOVO
@@ -18,10 +24,13 @@ public class JInternalFrameAgregarPartida extends javax.swing.JInternalFrame {
     /**
      * Creates new form JInternalFrameAgregarPartida
      */
+    int obtenerIdLibro = 0;
+
     public JInternalFrameAgregarPartida() {
         initComponents();
-        this.setSize(450, 350);
+        this.setSize(500, 400);
         this.setTitle("Agregar Partida");
+        this.CargarComboLibros();
     }
 
     /**
@@ -46,7 +55,7 @@ public class JInternalFrameAgregarPartida extends javax.swing.JInternalFrame {
         txt_folio = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         combo_libros = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        btn_Guardar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -55,90 +64,130 @@ public class JInternalFrameAgregarPartida extends javax.swing.JInternalFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setBackground(new java.awt.Color(0, 102, 0));
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 51));
         jLabel2.setText("AGREGAR PARTIDAS");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("DNI:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, -1, -1));
+        jLabel3.setAlignmentX(10.0F);
+        jLabel3.setAlignmentY(1.0F);
+        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 200, -1));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("NOMBRES:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, -1, -1));
+        jLabel4.setAlignmentX(10.0F);
+        jLabel4.setAlignmentY(1.0F);
+        jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 200, -1));
 
-        txt_dni.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txt_dni.setPreferredSize(new java.awt.Dimension(70, 25));
-        getContentPane().add(txt_dni, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 170, -1));
+        txt_dni.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txt_dni.setPreferredSize(new java.awt.Dimension(110, 30));
+        getContentPane().add(txt_dni, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, 210, -1));
 
-        txt_nombres.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txt_nombres.setPreferredSize(new java.awt.Dimension(70, 25));
-        getContentPane().add(txt_nombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 90, 170, -1));
+        txt_nombres.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txt_nombres.setPreferredSize(new java.awt.Dimension(110, 30));
+        getContentPane().add(txt_nombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 210, -1));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("APELLIDO PATERNO:");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, 20));
+        jLabel5.setAlignmentX(10.0F);
+        jLabel5.setAlignmentY(1.0F);
+        jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 200, -1));
 
-        txt_apellidoPat.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txt_apellidoPat.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txt_apellidoPat.setMinimumSize(new java.awt.Dimension(70, 25));
-        txt_apellidoPat.setPreferredSize(new java.awt.Dimension(70, 25));
+        txt_apellidoPat.setPreferredSize(new java.awt.Dimension(110, 30));
         txt_apellidoPat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_apellidoPatActionPerformed(evt);
             }
         });
-        getContentPane().add(txt_apellidoPat, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, 170, -1));
+        getContentPane().add(txt_apellidoPat, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, 210, -1));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("APELLIDO MATERNO:");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
+        jLabel6.setAlignmentX(10.0F);
+        jLabel6.setAlignmentY(1.0F);
+        jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 200, -1));
 
-        txt_apellidoMat.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txt_apellidoMat.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txt_apellidoMat.setMinimumSize(new java.awt.Dimension(70, 25));
         txt_apellidoMat.setName(""); // NOI18N
-        txt_apellidoMat.setPreferredSize(new java.awt.Dimension(70, 25));
-        getContentPane().add(txt_apellidoMat, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 150, 170, -1));
+        txt_apellidoMat.setPreferredSize(new java.awt.Dimension(110, 30));
+        getContentPane().add(txt_apellidoMat, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 170, 210, -1));
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel7.setText("FOLIO:");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 180, -1, 20));
+        jLabel7.setAlignmentX(10.0F);
+        jLabel7.setAlignmentY(1.0F);
+        jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 200, -1));
 
-        txt_folio.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txt_folio.setPreferredSize(new java.awt.Dimension(70, 25));
-        getContentPane().add(txt_folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, 170, -1));
+        txt_folio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txt_folio.setPreferredSize(new java.awt.Dimension(110, 30));
+        txt_folio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_folioActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txt_folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 210, -1));
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("LIBRO:");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, -1, -1));
+        jLabel8.setAlignmentX(10.0F);
+        jLabel8.setAlignmentY(1.0F);
+        jLabel8.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jLabel8.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 200, -1));
 
+        combo_libros.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        combo_libros.setForeground(new java.awt.Color(102, 102, 102));
         combo_libros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar Libro" }));
+        combo_libros.setMinimumSize(new java.awt.Dimension(124, 20));
+        combo_libros.setPreferredSize(new java.awt.Dimension(170, 30));
         combo_libros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 combo_librosActionPerformed(evt);
             }
         });
-        getContentPane().add(combo_libros, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 210, -1, -1));
+        getContentPane().add(combo_libros, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 250, -1, -1));
 
-        jButton1.setBackground(new java.awt.Color(0, 204, 51));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("GUARDAR");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_Guardar.setBackground(new java.awt.Color(0, 204, 51));
+        btn_Guardar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btn_Guardar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_Guardar.setText("GUARDAR");
+        btn_Guardar.setPreferredSize(new java.awt.Dimension(95, 30));
+        btn_Guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_GuardarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 250, -1, -1));
+        getContentPane().add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/wall2.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 310));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 490, 360));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -147,18 +196,75 @@ public class JInternalFrameAgregarPartida extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_apellidoPatActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
+        Partida partida = new Partida();
+        Ctrl_Partida controlPartida = new Ctrl_Partida();
+        String libro = combo_libros.getSelectedItem().toString().trim();
+
+        // Validar campos
+        if (txt_dni.getText().equals("") || txt_nombres.getText().equals("") || txt_apellidoPat.getText().equals("") || txt_apellidoMat.getText().equals("") || txt_folio.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Complete todos los campos");
+            txt_dni.setBackground(Color.red);
+            txt_nombres.setBackground(Color.red);
+            txt_apellidoPat.setBackground(Color.red);
+            txt_apellidoMat.setBackground(Color.red);
+            txt_folio.setBackground(Color.red);
+        } else if (txt_dni.getText().length() != 8 || !txt_dni.getText().matches("\\d+")) {
+            JOptionPane.showMessageDialog(null, "Ingrese un DNI válido de 8 números");
+            txt_dni.setBackground(Color.red);
+        } else {
+            // Consultar si la partida ya existe
+            if (!controlPartida.existePartidaDni(txt_dni.getText().trim())) {
+                if (libro.equalsIgnoreCase("Seleccionar Libro")) {
+                    JOptionPane.showMessageDialog(null, "Seleccione Libro");
+                } else {
+                    try {
+                        partida.setDni(txt_dni.getText().trim().toUpperCase());
+                        partida.setNombres(txt_nombres.getText().trim().toUpperCase());
+                        partida.setApellido_pat(txt_apellidoPat.getText().trim().toUpperCase());
+                        partida.setApellido_mat(txt_apellidoMat.getText().trim().toUpperCase());
+                        partida.setFolio(txt_folio.getText().trim().toUpperCase());
+                        partida.setId_Libro(IdLibro());
+
+                        if (controlPartida.guardar(partida)) {
+                            JOptionPane.showMessageDialog(null, "Registro Guardado");
+                            txt_dni.setBackground(Color.green);
+                            txt_nombres.setBackground(Color.green);
+                            txt_apellidoPat.setBackground(Color.green);
+                            txt_apellidoMat.setBackground(Color.green);
+                            txt_folio.setBackground(Color.green);
+                            LimpiarCampos();
+                            // Resto del código para limpiar y actualizar la interfaz
+                            // this.CargarComboLibros();
+                            // this.Limpiar();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error al Guardar");
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("Error en: " + e);
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "El DNI ya existe en la Base de Datos");
+            }
+        }
+
+
+    }//GEN-LAST:event_btn_GuardarActionPerformed
 
     private void combo_librosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_librosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_combo_librosActionPerformed
 
+    private void txt_folioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_folioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_folioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_Guardar;
     private javax.swing.JComboBox<String> combo_libros;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -173,19 +279,65 @@ public class JInternalFrameAgregarPartida extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txt_folio;
     private javax.swing.JTextField txt_nombres;
     // End of variables declaration//GEN-END:variables
-private void CargarComboLibros(){
-Connection cn=conexion.conectar();
-String sql ="select * from libros";
-Statement st;
-    try {
-        st= cn.createStatement();
-        ResultSet rs= st.executeQuery(sql);
-        combo_libros.removeAllItems();
-        
-        
-    } catch (SQLException e) {
-        System.out.println("Error al cargar categoria");
+private void CargarComboLibros() {
+        Connection cn = conexion.conectar();
+        String sql = "select * from libro order by cast(anio as unsigned)";
+        Statement st;
+        try {
+            st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            combo_libros.removeAllItems();
+            combo_libros.addItem("Seleccionar Libro");
+            while (rs.next()) {
+                combo_libros.addItem(rs.getString("anio"));
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("Error al cargar libros");
+        }
     }
-}
 
+    private int IdLibro() {
+      if (combo_libros.getSelectedIndex() > 0) {
+        String selectedLibroAnio = combo_libros.getSelectedItem().toString();
+        obtenerIdLibro = getIdLibroFromAnio(selectedLibroAnio);
+    } else {
+        obtenerIdLibro = 0; // Otra acción por defecto, puedes ajustarla según tus necesidades
+    }
+    return obtenerIdLibro;
+    }
+
+    private void LimpiarCampos() {
+        txt_dni.setText("");
+        txt_nombres.setText("");
+        txt_apellidoPat.setText("");
+        txt_apellidoMat.setText("");
+        txt_folio.setText("");
+        CargarComboLibros();
+        // Restablecer colores de fondo si es necesario
+        txt_dni.setBackground(null);
+        txt_nombres.setBackground(null);
+        txt_apellidoPat.setBackground(null);
+        txt_apellidoMat.setBackground(null);
+        txt_folio.setBackground(null);
+    }
+    private int getIdLibroFromAnio(String anio) {
+    int idLibro = 0;
+    String sql = "SELECT id_Libro FROM libro WHERE anio = ?";
+    
+    try (Connection cn = conexion.conectar();
+         PreparedStatement pst = cn.prepareStatement(sql)) {
+        pst.setString(1, anio);
+        
+        try (ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                idLibro = rs.getInt("id_Libro");
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Error al obtener id Libro");
+    }
+    
+    return idLibro;
+}
 }
