@@ -102,24 +102,24 @@ public class NewJInternalFrame_GestLibro extends javax.swing.JInternalFrame {
         btn_actualizar.setBackground(new java.awt.Color(0, 153, 51));
         btn_actualizar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btn_actualizar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_actualizar.setText("Actualizar");
+        btn_actualizar.setText("ACTUALIZAR");
         btn_actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_actualizarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 170, 100, 30));
+        getContentPane().add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 170, 110, 30));
 
         btn_eliminar.setBackground(new java.awt.Color(255, 0, 51));
         btn_eliminar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_eliminar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_eliminar.setText("Eliminar");
+        btn_eliminar.setText("ELIMINAR");
         btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_eliminarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 220, 100, 30));
+        getContentPane().add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 220, 110, 30));
 
         txt_anioLibro.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txt_anioLibro.addActionListener(new java.awt.event.ActionListener() {
@@ -130,19 +130,21 @@ public class NewJInternalFrame_GestLibro extends javax.swing.JInternalFrame {
         getContentPane().add(txt_anioLibro, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 192, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText("Año/Libro:");
+        jLabel3.setText("AÑO/LiBRO:");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 70, -1, -1));
 
         jButton1.setBackground(new java.awt.Color(0, 153, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/circle.png"))); // NOI18N
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("RECARGAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, 40, 30));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 320, -1, 30));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/wall2.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/wall_Gest_Libro.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 360));
 
         pack();
@@ -194,6 +196,7 @@ public class NewJInternalFrame_GestLibro extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Libro Actualizado");
                 txt_anioLibro.setText("");
                 this.CargarTablaLibros();
+                
             } else {
                 JOptionPane.showMessageDialog(null, "Error al actualizar Libro");
             }

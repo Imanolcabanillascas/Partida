@@ -85,10 +85,11 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenuItem4.setText("jMenuItem4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setIconImages(getIconImages());
+        setBackground(new java.awt.Color(0, 204, 51));
 
         jMenuBar1.setPreferredSize(new java.awt.Dimension(150, 50));
 
+        jMenu1.setBackground(new java.awt.Color(255, 204, 51));
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuario.png"))); // NOI18N
         jMenu1.setText("Usuario");
         jMenu1.setPreferredSize(new java.awt.Dimension(150, 50));
@@ -108,6 +109,7 @@ public class FrmMenu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setBackground(new java.awt.Color(255, 204, 0));
         jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/book.png"))); // NOI18N
         jMenu2.setText("Libros");
         jMenu2.setPreferredSize(new java.awt.Dimension(150, 50));
@@ -137,6 +139,7 @@ public class FrmMenu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
+        jMenu7.setBackground(new java.awt.Color(255, 204, 0));
         jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/partidas.png"))); // NOI18N
         jMenu7.setText("Partidas");
         jMenu7.setPreferredSize(new java.awt.Dimension(150, 50));
@@ -152,10 +155,16 @@ public class FrmMenu extends javax.swing.JFrame {
 
         jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/admin_folder.png"))); // NOI18N
         jMenuItem7.setText("Gestionar Partida");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu7.add(jMenuItem7);
 
         jMenuBar1.add(jMenu7);
 
+        jMenu8.setBackground(new java.awt.Color(255, 204, 0));
         jMenu8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reporte1.png"))); // NOI18N
         jMenu8.setText("Reportes");
         jMenu8.setPreferredSize(new java.awt.Dimension(150, 50));
@@ -170,6 +179,7 @@ public class FrmMenu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu8);
 
+        jMenu9.setBackground(new java.awt.Color(255, 204, 0));
         jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cerrar-sesion.png"))); // NOI18N
         jMenu9.setText("Cerrar Sesión");
         jMenu9.setPreferredSize(new java.awt.Dimension(150, 50));
@@ -216,6 +226,12 @@ public class FrmMenu extends javax.swing.JFrame {
        jDesktopPane_menu.add(internalPartida);
        internalPartida.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+  NewJInternalFrame_GestPartida interGestPartida=new NewJInternalFrame_GestPartida();
+       jDesktopPane_menu.add(interGestPartida);
+       interGestPartida.setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**
      * @param args the command line arguments

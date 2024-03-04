@@ -174,7 +174,7 @@ public class JInternalFrameAgregarPartida extends javax.swing.JInternalFrame {
         });
         getContentPane().add(combo_libros, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 250, -1, -1));
 
-        btn_Guardar.setBackground(new java.awt.Color(0, 204, 51));
+        btn_Guardar.setBackground(new java.awt.Color(0, 153, 0));
         btn_Guardar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btn_Guardar.setForeground(new java.awt.Color(255, 255, 255));
         btn_Guardar.setText("GUARDAR");
@@ -184,7 +184,7 @@ public class JInternalFrameAgregarPartida extends javax.swing.JInternalFrame {
                 btn_GuardarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, -1, -1));
+        getContentPane().add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 300, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/wall2.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 490, 360));

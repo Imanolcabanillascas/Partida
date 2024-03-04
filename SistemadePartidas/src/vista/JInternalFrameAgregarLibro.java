@@ -50,7 +50,7 @@ public class JInternalFrameAgregarLibro extends javax.swing.JInternalFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 51, 51));
-        jLabel2.setText("Año/Libro:");
+        jLabel2.setText("AÑO/LIBRO:");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, -1));
 
         txt_anioLibro.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -77,7 +77,7 @@ public class JInternalFrameAgregarLibro extends javax.swing.JInternalFrame {
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 150, 30));
 
-        jLabel_wallpaper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/wall.png"))); // NOI18N
+        jLabel_wallpaper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/wall_Nuevo_Libro.png"))); // NOI18N
         getContentPane().add(jLabel_wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 390, 270));
 
         pack();
