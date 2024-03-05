@@ -18,6 +18,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import modelo.Partida;
 import controlador.Ctrl_Partida;
+import java.awt.Color;
 import modelo.Libro;
 
 /**
@@ -26,6 +27,8 @@ import modelo.Libro;
  */
 public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
 
+    private boolean primeraRecarga = true;
+    private int filaSeleccionada = -1;
     private int idPartida;
     int obtenerIdLibro = 0;
 
@@ -64,7 +67,7 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
         txt_apellido_pat = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txt_folio = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btn_buscar = new javax.swing.JButton();
         jComboBox_libro = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
 
@@ -76,18 +79,20 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
 
         jTable_Partida.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTable_Partida.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTable_Partida.setGridColor(new java.awt.Color(255, 255, 255));
         jTable_Partida.setShowHorizontalLines(true);
@@ -99,14 +104,14 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 690, 250));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 740, 250));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 51));
@@ -122,7 +127,7 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
                 btn_actualizarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 260, 110, 30));
+        getContentPane().add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 260, 110, 30));
 
         btn_eliminar.setBackground(new java.awt.Color(255, 0, 51));
         btn_eliminar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -133,7 +138,7 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
                 btn_eliminarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 310, 110, 30));
+        getContentPane().add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 310, 110, 30));
 
         txt_buscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txt_buscar.addActionListener(new java.awt.event.ActionListener() {
@@ -141,7 +146,7 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
                 txt_buscarActionPerformed(evt);
             }
         });
-        getContentPane().add(txt_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 270, 30));
+        getContentPane().add(txt_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 50, 170, 30));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("APELLIDO MATERNO:");
@@ -183,6 +188,7 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
         getContentPane().add(txt_apellido_mat, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 400, 180, 30));
 
         txt_dni.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txt_dni.setEnabled(false);
         txt_dni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_dniActionPerformed(evt);
@@ -218,11 +224,16 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
         });
         getContentPane().add(txt_folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 360, 160, 30));
 
-        jButton1.setBackground(new java.awt.Color(0, 51, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("BUSCAR");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 50, 110, -1));
+        btn_buscar.setBackground(new java.awt.Color(0, 51, 255));
+        btn_buscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_buscar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_buscar.setText("BUSCAR");
+        btn_buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_buscarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 50, 110, -1));
 
         jComboBox_libro.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jComboBox_libro.setForeground(new java.awt.Color(102, 102, 102));
@@ -241,7 +252,47 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        if (!txt_dni.getText().isEmpty() && !txt_nombres.getText().isEmpty() && !txt_apellido_pat.getText().isEmpty() && !txt_apellido_pat.getText().isEmpty() && !txt_apellido_mat.getText().isEmpty() && !txt_folio.getText().isEmpty() && jComboBox_libro.getSelectedIndex() != -1) {
+            Object[] options = {"Sí", "No"};
+            int opcion = JOptionPane.showOptionDialog(
+                    null,
+                    "¿Estás seguro de eliminar La Partida ?",
+                    "Confirmar eliminación",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]
+            );
 
+            if (opcion == JOptionPane.YES_OPTION) {
+                Partida partida = new Partida();
+                Ctrl_Partida controlPartida = new Ctrl_Partida();
+
+                partida.setDni(txt_dni.getText().trim());
+                partida.setNombres(txt_nombres.getText().trim());
+                partida.setApellido_pat(txt_apellido_pat.getText().trim());
+                partida.setApellido_mat(txt_apellido_mat.getText().trim());
+                partida.setFolio(txt_folio.getText().trim());
+
+                if (!controlPartida.eliminar(idPartida)) {
+                    JOptionPane.showMessageDialog(null, "Partida Eliminada");
+                    txt_dni.setText("");
+                    txt_nombres.setText("");
+                    txt_apellido_pat.setText("");
+                    txt_apellido_mat.setText("");
+                    txt_folio.setText("");
+                    String opcionSeleccionada = (String) jComboBox_libro.getSelectedItem();
+
+                    jComboBox_libro.setSelectedItem("Seleccionar Libro");
+                    this.CargarTablaPartidas();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al Eliminar ¨Partida");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccionar una Partida");
+        }
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void txt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_buscarActionPerformed
@@ -249,6 +300,53 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txt_buscarActionPerformed
 
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
+        Partida partida = new Partida();
+        Ctrl_Partida controlPartida = new Ctrl_Partida();
+        String libro = jComboBox_libro.getSelectedItem().toString().trim();
+
+        if (txt_nombres.getText().equals("") || txt_apellido_pat.getText().equals("") || txt_apellido_mat.getText().equals("") || txt_folio.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Complete todos los campos");
+        } else {
+            try {
+                partida.setNombres(txt_nombres.getText().trim().toUpperCase());
+                partida.setApellido_pat(txt_apellido_pat.getText().trim().toUpperCase());
+                partida.setApellido_mat(txt_apellido_mat.getText().trim().toUpperCase());
+                partida.setFolio(txt_folio.getText().trim().toUpperCase());
+                partida.setId_Libro(getIdLibroFromAnio(libro));
+
+                if (idPartida == 0) {
+                    // Nueva Partida
+                    if (!controlPartida.existePartidaDni(txt_dni.getText().trim())) {
+                        if (libro.equalsIgnoreCase("Seleccionar Libro")) {
+                            JOptionPane.showMessageDialog(null, "Seleccione Libro");
+                        } else {
+                            if (controlPartida.guardar(partida)) {
+                                JOptionPane.showMessageDialog(null, "Registro Guardado");
+                                LimpiarCampos();
+                                // Resto del código para limpiar y actualizar la interfaz
+                                // this.CargarComboLibros();
+                                // this.Limpiar();
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Error al Guardar");
+                            }
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El DNI ya existe en la Base de Datos");
+                    }
+                } else {
+                    // Actualizar Partida
+                    if (controlPartida.actualizar(partida, idPartida)) {
+                        JOptionPane.showMessageDialog(null, "Registro Actualizado");
+                        LimpiarCampos();
+                        CargarTablaPartidas();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error al Actualizar");
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Error en: " + e);
+            }
+        }
 
 
     }//GEN-LAST:event_btn_actualizarActionPerformed
@@ -281,12 +379,45 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_libroActionPerformed
 
+    private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
+        String dniBuscar = txt_buscar.getText().trim();
+        if (!dniBuscar.isEmpty()) {
+            try {
+                Ctrl_Partida controlPartida = new Ctrl_Partida();
+                ResultSet resultados = controlPartida.buscarPartidaPorDNI(dniBuscar);
+
+                DefaultTableModel modelo = (DefaultTableModel) jTable_Partida.getModel();
+                modelo.setRowCount(0);
+
+                while (resultados.next()) {
+                    // Agrega filas a la tabla con los datos obtenidos del ResultSet
+                    Object[] fila = {
+                        resultados.getInt("id_Partida"),
+                        resultados.getString("dni"),
+                        resultados.getString("nombres"),
+                        resultados.getString("apellido_pat"),
+                        resultados.getString("apellido_mat"),
+                        resultados.getString("folio"),
+                        resultados.getInt("id_Libro")
+                    };
+                    modelo.addRow(fila);
+                }
+
+            } catch (SQLException e) {
+                System.err.println("Error al buscar la partida por DNI: " + e);
+            }
+        } else {
+            // Mensaje de error si el campo DNI está vacío
+            JOptionPane.showMessageDialog(null, "Ingrese un DNI para realizar la búsqueda");
+        }
+    }//GEN-LAST:event_btn_buscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_actualizar;
+    private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_recargar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox_libro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -346,6 +477,11 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
                 model.addRow(fila);
             }
 
+            // Restaura la selección si había una antes de recargar la tabla
+            if (!primeraRecarga && filaSeleccionada != -1 && filaSeleccionada < NewJInternalFrame_GestPartida.jTable_Partida.getRowCount()) {
+                NewJInternalFrame_GestPartida.jTable_Partida.setRowSelectionInterval(filaSeleccionada, filaSeleccionada);
+            }
+
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -357,13 +493,17 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
                 int fila_point = NewJInternalFrame_GestPartida.jTable_Partida.rowAtPoint(e.getPoint());
                 int columna_point = 0;
 
-                if (fila_point > -1) {
+                if (fila_point > -1 && fila_point < model.getRowCount()) {
+                    // Verifica que el índice de la fila seleccionada esté dentro de los límites del modelo
                     idPartida = (int) model.getValueAt(fila_point, columna_point);
-                    System.out.println("Clic en la fila: " + idPartida);  // Agrega este mensaje para verificar si se activa el evento
+                    System.out.println("Clic en la fila: " + idPartida);
                     EnviardatosPartida(idPartida);
                 }
             }
         });
+
+        // Después de la primera recarga, establece la variable de control en false
+        primeraRecarga = false;
     }
 
     private void EnviardatosPartida(int idPartida) {
@@ -399,8 +539,6 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
                 txt_apellido_pat.setText(rsPartida.getString("apellido_pat"));
                 txt_apellido_mat.setText(rsPartida.getString("apellido_mat"));
                 txt_folio.setText(rsPartida.getString("folio"));
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontraron datos para la partida seleccionada.");
             }
 
             cn.close();

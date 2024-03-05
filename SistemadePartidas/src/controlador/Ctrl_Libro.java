@@ -4,7 +4,6 @@
  */
 package controlador;
 
-
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,21 +15,23 @@ import java.sql.ResultSet;
  * @author LENOVO
  */
 public class Ctrl_Libro {
-    public boolean guardar(Libro objeto){
-        boolean respuesta=false;
-        Connection cn= conexion.conexion.conectar();
+
+    public boolean guardar(Libro objeto) {
+        boolean respuesta = false;
+        Connection cn = conexion.conexion.conectar();
         try {
-            PreparedStatement consulta=cn.prepareStatement("insert into libro value(?,?)");
-       consulta.setInt(1,0);
-       consulta.setString(2, objeto.getAnio());
-       if(consulta.executeUpdate()>0){
-           respuesta=true;
-       }
+            PreparedStatement consulta = cn.prepareStatement("insert into libro value(?,?)");
+            consulta.setInt(1, 0);
+            consulta.setString(2, objeto.getAnio());
+            if (consulta.executeUpdate() > 0) {
+                respuesta = true;
+            }
         } catch (SQLException e) {
             System.err.println("Error al conectar");
         }
         return respuesta;
     }
+
     public boolean existeLibroConAnio(String anio) {
         boolean existe = false;
         Connection cn = conexion.conexion.conectar();
@@ -49,7 +50,8 @@ public class Ctrl_Libro {
 
         return existe;
     }
-     public boolean eliminar(int idLibro) {
+
+    public boolean eliminar(int idLibro) {
         boolean respuesta = false;
         Connection cn = conexion.conexion.conectar();
         try {
@@ -57,7 +59,7 @@ public class Ctrl_Libro {
             PreparedStatement consulta = cn.prepareStatement(
                     "delete from libro where id_Libro ='" + idLibro + "'");
             consulta.executeUpdate();
-           
+
             if (consulta.executeUpdate() > 0) {
                 respuesta = true;
             }
@@ -70,14 +72,15 @@ public class Ctrl_Libro {
 
         return respuesta;
     }
-   public boolean actualizar(Libro objeto, int idLibro) {
+
+    public boolean actualizar(Libro objeto, int idLibro) {
         boolean respuesta = false;
         Connection cn = conexion.conexion.conectar();
         try {
 
             PreparedStatement consulta = cn.prepareStatement("update libro set anio=? where id_Libro ='" + idLibro + "'");
             consulta.setString(1, objeto.getAnio());
-           
+
             if (consulta.executeUpdate() > 0) {
                 respuesta = true;
             }
@@ -89,5 +92,24 @@ public class Ctrl_Libro {
         }
 
         return respuesta;
+    }
+
+    public boolean existePartidaConDNI(String dni) {
+        boolean existe = false;
+        Connection cn = conexion.conexion.conectar();
+
+        try {
+            String consultaSQL = "SELECT * FROM partida WHERE dni = ?";
+            PreparedStatement consulta = cn.prepareStatement(consultaSQL);
+            consulta.setString(1, dni);
+
+            ResultSet resultado = consulta.executeQuery();
+            existe = resultado.next();
+
+        } catch (SQLException e) {
+            System.err.println("Error al consultar la existencia de la partida por DNI");
+        }
+
+        return existe;
     }
 }

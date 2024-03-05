@@ -80,26 +80,44 @@ public class Ctrl_Partida {
     public boolean actualizar(Partida objeto, int idPartida) {
         boolean respuesta = false;
         Connection cn = conexion.conexion.conectar();
-        try {
 
-            PreparedStatement consulta = cn.prepareStatement("update partida set dni=?,nombres=?,apellido_pat=?,apellido_mat=?,folio=?,id_Libro=? where id_Partida ='" + idPartida + "'");
-            consulta.setString(1, objeto.getDni());
-            consulta.setString(2, objeto.getNombres());
-            consulta.setString(3, objeto.getApellido_pat());
-            consulta.setString(4, objeto.getApellido_mat());
-            consulta.setString(5, objeto.getFolio());
-            consulta.setInt(6, objeto.getId_Libro());
+        try {
+            PreparedStatement consulta = cn.prepareStatement("UPDATE partida SET nombres=?, apellido_pat=?, apellido_mat=?, folio=?, id_Libro=? WHERE id_Partida = ?");
+            consulta.setString(1, objeto.getNombres());
+            consulta.setString(2, objeto.getApellido_pat());
+            consulta.setString(3, objeto.getApellido_mat());
+            consulta.setString(4, objeto.getFolio());
+            consulta.setInt(5, objeto.getId_Libro());  // Actualiza el id_Libro
+            consulta.setInt(6, idPartida);  // Establece el idPartida en la condición WHERE
 
             if (consulta.executeUpdate() > 0) {
                 respuesta = true;
             }
 
             cn.close();
-
         } catch (SQLException e) {
-            System.out.println("Error al actualizar libro: " + e);
+            System.out.println("Error al actualizar partida: " + e);
         }
 
         return respuesta;
     }
+
+    public ResultSet buscarPartidaPorDNI(String dni) {
+        ResultSet resultado = null;
+        Connection cn = conexion.conexion.conectar();
+
+        try {
+            String consultaSQL = "SELECT * FROM partida WHERE dni = ?";
+            PreparedStatement consulta = cn.prepareStatement(consultaSQL);
+            consulta.setString(1, dni);
+
+            resultado = consulta.executeQuery();
+
+        } catch (SQLException e) {
+            System.err.println("Error al buscar la partida por DNI");
+        }
+
+        return resultado;
+    }
+
 }
