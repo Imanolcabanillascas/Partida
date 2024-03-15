@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,10 +17,12 @@ import javax.swing.JDesktopPane;
 public class FrmMenu extends javax.swing.JFrame {
 
     public static JDesktopPane jDesktopPane_menu;
-  public Image getIconImage() {
+
+    public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("img/partidas.png"));
         return retValue;
     }
+
     /**
      * Creates new form FrmMenu
      */
@@ -66,9 +69,7 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jMenu9 = new javax.swing.JMenu();
+        btn_salir = new javax.swing.JMenu();
 
         jMenu3.setText("File");
         jMenuBar2.add(jMenu3);
@@ -168,22 +169,23 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenu8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reporte1.png"))); // NOI18N
         jMenu8.setText("Reportes");
         jMenu8.setPreferredSize(new java.awt.Dimension(150, 50));
-
-        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/report_book.png"))); // NOI18N
-        jMenuItem8.setText("Reporte Libros");
-        jMenu8.add(jMenuItem8);
-
-        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/report_folder.png"))); // NOI18N
-        jMenuItem9.setText("Reporte Partidas");
-        jMenu8.add(jMenuItem9);
-
         jMenuBar1.add(jMenu8);
 
-        jMenu9.setBackground(new java.awt.Color(255, 204, 0));
-        jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cerrar-sesion.png"))); // NOI18N
-        jMenu9.setText("Cerrar Sesión");
-        jMenu9.setPreferredSize(new java.awt.Dimension(150, 50));
-        jMenuBar1.add(jMenu9);
+        btn_salir.setBackground(new java.awt.Color(255, 204, 0));
+        btn_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cerrar-sesion.png"))); // NOI18N
+        btn_salir.setText("Cerrar Sesión");
+        btn_salir.setPreferredSize(new java.awt.Dimension(150, 50));
+        btn_salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_salirMouseClicked(evt);
+            }
+        });
+        btn_salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_salirActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(btn_salir);
 
         setJMenuBar(jMenuBar1);
 
@@ -210,28 +212,50 @@ public class FrmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ItemStateChanged
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        JInternalFrameAgregarLibro internalLibro=new JInternalFrameAgregarLibro();
+        JInternalFrameAgregarLibro internalLibro = new JInternalFrameAgregarLibro();
         jDesktopPane_menu.add(internalLibro);
         internalLibro.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-       NewJInternalFrame_GestLibro interGestLibro=new NewJInternalFrame_GestLibro();
-       jDesktopPane_menu.add(interGestLibro);
-       interGestLibro.setVisible(true);
+        NewJInternalFrame_GestLibro interGestLibro = new NewJInternalFrame_GestLibro();
+        jDesktopPane_menu.add(interGestLibro);
+        interGestLibro.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-       JInternalFrameAgregarPartida internalPartida=new JInternalFrameAgregarPartida();
-       jDesktopPane_menu.add(internalPartida);
-       internalPartida.setVisible(true);
+        JInternalFrameAgregarPartida internalPartida = new JInternalFrameAgregarPartida();
+        jDesktopPane_menu.add(internalPartida);
+        internalPartida.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-  NewJInternalFrame_GestPartida interGestPartida=new NewJInternalFrame_GestPartida();
-       jDesktopPane_menu.add(interGestPartida);
-       interGestPartida.setVisible(true);
+        NewJInternalFrame_GestPartida interGestPartida = new NewJInternalFrame_GestPartida();
+        jDesktopPane_menu.add(interGestPartida);
+        interGestPartida.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
+
+    }//GEN-LAST:event_btn_salirActionPerformed
+
+    private void btn_salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_salirMouseClicked
+        Object[] options = {"Sí", "No"};
+        int opcion = JOptionPane.showOptionDialog(
+                null,
+                "¿Estás seguro de salir de la aplicación?",
+                "Salir",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+        if (opcion == JOptionPane.YES_OPTION) {
+
+            this.dispose();
+    }//GEN-LAST:event_btn_salirMouseClicked
+    }
 
     /**
      * @param args the command line arguments
@@ -269,6 +293,7 @@ public class FrmMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu btn_salir;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -277,7 +302,6 @@ public class FrmMenu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuBar jMenuBar3;
@@ -288,7 +312,5 @@ public class FrmMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     // End of variables declaration//GEN-END:variables
 }

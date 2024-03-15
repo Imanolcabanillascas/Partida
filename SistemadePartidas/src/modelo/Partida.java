@@ -10,12 +10,13 @@ package modelo;
  */
 public class Partida {
     private int id_Partida;
-    private String dni;
+    private String n_partida;
     private String nombres;
     private String apellido_pat;
     private String apellido_mat;
     private String folio;
     private int id_Libro;
+    private int id_tipoPartida;
 
     public int getId_Partida() {
         return id_Partida;
@@ -25,12 +26,12 @@ public class Partida {
         this.id_Partida = id_Partida;
     }
 
-    public String getDni() {
-        return dni;
+    public String getN_partida() {
+        return n_partida;
     }
 
-    public void setDni(String dni) {
-        this.dni = dni;
+    public void setN_partida(String n_partida) {
+        this.n_partida = n_partida;
     }
 
     public String getNombres() {
@@ -73,13 +74,24 @@ public class Partida {
         this.id_Libro = id_Libro;
     }
 
+    public int getId_tipoPartida() {
+        return id_tipoPartida;
+    }
+
+    public void setId_tipoPartida(int id_tipoPartida) {
+        this.id_tipoPartida = id_tipoPartida;
+    }
+
     public Partida() {
         this.id_Partida = id_Partida;
-        this.dni = dni;
+        this.n_partida = n_partida;
         this.nombres = nombres;
         this.apellido_pat = apellido_pat;
         this.apellido_mat = apellido_mat;
         this.folio = folio;
         this.id_Libro = id_Libro;
+        this.id_tipoPartida = id_tipoPartida;
     }
+
+    
 }

@@ -94,20 +94,20 @@ public class Ctrl_Libro {
         return respuesta;
     }
 
-    public boolean existePartidaConDNI(String dni) {
+    public boolean existePartidaConNum(String n_partida) {
         boolean existe = false;
         Connection cn = conexion.conexion.conectar();
 
         try {
-            String consultaSQL = "SELECT * FROM partida WHERE dni = ?";
+            String consultaSQL = "SELECT * FROM partida WHERE n_partida = ?";
             PreparedStatement consulta = cn.prepareStatement(consultaSQL);
-            consulta.setString(1, dni);
+            consulta.setString(1, n_partida);
 
             ResultSet resultado = consulta.executeQuery();
             existe = resultado.next();
 
         } catch (SQLException e) {
-            System.err.println("Error al consultar la existencia de la partida por DNI");
+            System.err.println("Error al consultar la existencia de la partida por Num de Partida");
         }
 
         return existe;
