@@ -16,7 +16,7 @@ public class Usuario {
     private String usuario_name;
     private String password;
     private String telefono;
-    private int estado;
+
 
     public int getId_Usuario() {
         return id_Usuario;
@@ -66,13 +66,7 @@ public class Usuario {
         this.telefono = telefono;
     }
 
-    public int getEstado() {
-        return estado;
-    }
-
-    public void setEstado(int estado) {
-        this.estado = estado;
-    }
+  
 
    
 
@@ -83,7 +77,6 @@ public class Usuario {
         this.usuario_name = "";
         this.password = "";
         this.telefono = "";
-        this.estado = 0;
     }
 
 

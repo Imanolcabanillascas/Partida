@@ -8,14 +8,17 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import conexion.conexion;
 import controlador.Ctrl_Partida;
-import controlador.Ctrl_Tipo_Partida;
+
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import modelo.Partida;
 import modelo.TipoPartida;
+import static vista.NewJInternalFrame_GestPartida.jTable_Partida;
 
 /**
  *
@@ -263,6 +266,9 @@ public class JInternalFrameAgregarPartida extends javax.swing.JInternalFrame {
                             txt_apellidoMat.setBackground(Color.green);
                             txt_folio.setBackground(Color.green);
                             LimpiarCampos();
+
+                            mostrarPartidas("Todos", jTable_Partida);
+
                             // Resto del código para limpiar y actualizar la interfaz
                             // this.CargarComboLibros();
                             // this.Limpiar();
@@ -278,7 +284,6 @@ public class JInternalFrameAgregarPartida extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "El N°de partida ya existe en la Base de Datos");
             }
         }
-
 
     }//GEN-LAST:event_btn_GuardarActionPerformed
 
@@ -423,5 +428,54 @@ private void CargarComboLibros() {
         }
 
         return idTipoPartida;
+    }
+
+    public void mostrarPartidas(String selectedItem, JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Limpiar tabla antes de mostrar nuevos datos
+
+        String tipoPartida = null;
+        if (!selectedItem.equals("Todos")) {
+            if (selectedItem.equals("Fallecimiento")) {
+                tipoPartida = "Fallecimiento";
+            } else if (selectedItem.equals("Nacimiento")) {
+                tipoPartida = "Nacimiento";
+            } else if (selectedItem.equals("Matrimonio")) {
+                tipoPartida = "Matrimonio";
+            }
+        }
+
+        String sql = "SELECT p.id_Partida, p.n_partida, p.nombres, p.apellido_pat, p.apellido_mat, p.folio, l.anio, t.tipoPartida "
+                + "FROM partida p "
+                + "JOIN libro l ON p.id_libro = l.id_libro "
+                + "JOIN tipopartida t ON p.id_tipoPartida = t.id_tipoPartida ";
+
+        if (tipoPartida != null) {
+            sql += "WHERE t.tipoPartida = ?";
+        }
+
+        try ( Connection connection = conexion.conectar();  PreparedStatement statement = connection.prepareStatement(sql)) {
+            if (tipoPartida != null) {
+                statement.setString(1, tipoPartida);
+            }
+            try ( ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Object[] row = new Object[]{
+                        resultSet.getInt("id_Partida"),
+                        resultSet.getString("n_partida"),
+                        resultSet.getString("nombres"),
+                        resultSet.getString("apellido_pat"),
+                        resultSet.getString("apellido_mat"),
+                        resultSet.getString("folio"),
+                        resultSet.getString("anio"),
+                        resultSet.getString("tipoPartida")
+                    };
+                    model.addRow(row);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

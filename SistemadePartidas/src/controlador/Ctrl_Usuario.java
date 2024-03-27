@@ -23,13 +23,13 @@ public class Ctrl_Usuario {
     public boolean loginUser(Usuario objeto) {
         boolean respuesta = false;
         Connection cn = conexion.conectar();
-        String sql = "select usuario_name, password from usuario where usuario_name='"+objeto.getUsuario_name()+"' and password = '"+objeto.getPassword()+"';";
+        String sql = "select usuario_name, password from usuario where usuario_name='" + objeto.getUsuario_name() + "' and password = '" + objeto.getPassword() + "';";
         Statement st;
         try {
-            st=cn.createStatement();
-            ResultSet rs=st.executeQuery(sql);
-            while(rs.next()){
-                respuesta =true;
+            st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                respuesta = true;
             }
         } catch (SQLException e) {
             System.out.println("Error al iniciar sesión");
@@ -37,5 +37,27 @@ public class Ctrl_Usuario {
         }
         return respuesta;
     }
+
+    public boolean actualizar(Usuario objeto, int idUsuario) {
+        boolean respuesta = false;
+        Connection cn = conexion.conectar();
+
+        try {
+            PreparedStatement consulta = cn.prepareStatement("UPDATE usuario SET nombre=?, apellido=?, usuario_name=?, password=?,telefono=? WHERE id_Usuario = ?");
+            consulta.setString(1, objeto.getNombre());
+            consulta.setString(2, objeto.getApellido());
+            consulta.setString(3, objeto.getUsuario_name());
+            consulta.setString(4, objeto.getPassword());
+            consulta.setString(5, objeto.getTelefono());
+            consulta.setInt(6, idUsuario); 
+            if (consulta.executeUpdate() > 0) {
+                respuesta = true;
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar partida: " + e);
+        }
+
+        return respuesta;
+    }
 }
- 

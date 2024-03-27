@@ -4,17 +4,36 @@
  */
 package vista;
 
+import com.mysql.jdbc.PreparedStatement;
+import java.sql.Connection;
+import conexion.conexion;
+import controlador.Ctrl_Usuario;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import modelo.Usuario;
+
 /**
  *
  * @author LENOVO
  */
 public class NewJInternalFrame_GestUsuario extends javax.swing.JInternalFrame {
 
+    private int idUsuario = 1;
+
     /**
-     * Creates new form NewJInternalFrame_GestUsuario
+     * Creates new form NewJInternalFrame_GestLibro
      */
     public NewJInternalFrame_GestUsuario() {
         initComponents();
+        this.setSize(450, 300);
+        this.setTitle("Gestionar Usuario");
+        CargarDatosUsuario();
+
     }
 
     /**
@@ -26,21 +45,223 @@ public class NewJInternalFrame_GestUsuario extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
-        );
+        jLabel2 = new javax.swing.JLabel();
+        btn_actualizar = new javax.swing.JButton();
+        txt_nombres = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        txt_apellidos = new javax.swing.JTextField();
+        txt_telefono = new javax.swing.JTextField();
+        txt_usuario = new javax.swing.JTextField();
+        txt_password = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+
+        setClosable(true);
+        setResizable(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel2.setText("ADMINISTRAR USUARIO");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, -1, -1));
+
+        btn_actualizar.setBackground(new java.awt.Color(0, 153, 51));
+        btn_actualizar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_actualizar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_actualizar.setText("ACTUALIZAR");
+        btn_actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_actualizarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, 110, 30));
+
+        txt_nombres.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txt_nombres.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_nombresActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txt_nombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 220, -1));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("TELÉFONO:");
+        jLabel3.setRequestFocusEnabled(false);
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 100, -1));
+        jLabel3.getAccessibleContext().setAccessibleName("");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("NOMBRES:");
+        jLabel4.setRequestFocusEnabled(false);
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 100, -1));
+        jLabel4.getAccessibleContext().setAccessibleName("");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("APELLIDOS:");
+        jLabel5.setRequestFocusEnabled(false);
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 100, -1));
+        jLabel5.getAccessibleContext().setAccessibleName("");
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setText("USUARIO:");
+        jLabel6.setRequestFocusEnabled(false);
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 100, -1));
+        jLabel6.getAccessibleContext().setAccessibleName("");
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("CONTRASEÑA:");
+        jLabel7.setRequestFocusEnabled(false);
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, -1, -1));
+        jLabel7.getAccessibleContext().setAccessibleName("");
+
+        txt_apellidos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txt_apellidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_apellidosActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txt_apellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 220, -1));
+
+        txt_telefono.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txt_telefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_telefonoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txt_telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, 220, -1));
+
+        txt_usuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txt_usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_usuarioActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txt_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 220, -1));
+
+        txt_password.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txt_password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_passwordActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txt_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 220, -1));
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Gest_Usuario.png"))); // NOI18N
+        jLabel1.setRequestFocusEnabled(false);
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 270));
+        jLabel1.getAccessibleContext().setAccessibleName("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txt_nombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nombresActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_nombresActionPerformed
+
+    private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
+        if (!txt_nombres.getText().isEmpty() || !txt_apellidos.getText().isEmpty() || !txt_telefono.getText().isEmpty() || !txt_usuario.getText().isEmpty() || !txt_password.getText().isEmpty()) {
+            Object[] options = {"Sí", "No"};
+            int opcion = JOptionPane.showOptionDialog(
+                    null,
+                    "¿Estás seguro de actualizar los datos?",
+                    "Actualizar",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]
+            );
+            if (opcion == JOptionPane.YES_OPTION) {
+                Usuario usuario = new Usuario();
+                usuario.setNombre(txt_nombres.getText().trim());
+                usuario.setApellido(txt_apellidos.getText().trim());
+                usuario.setTelefono(txt_telefono.getText().trim());
+                usuario.setUsuario_name(txt_usuario.getText().trim());
+                usuario.setPassword(txt_password.getText().trim());
+
+                Ctrl_Usuario controlUsuario = new Ctrl_Usuario();
+                boolean actualizado = controlUsuario.actualizar(usuario, 1); // Aquí se asume que siempre estás actualizando el usuario con ID 1
+                if (actualizado) {
+                    JOptionPane.showMessageDialog(null, "Usuario actualizado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al actualizar usuario");
+                }
+            }
+        }
+    }//GEN-LAST:event_btn_actualizarActionPerformed
+
+    private void txt_apellidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_apellidosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_apellidosActionPerformed
+
+    private void txt_telefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_telefonoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_telefonoActionPerformed
+
+    private void txt_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_usuarioActionPerformed
+
+    private void txt_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_passwordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_passwordActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_actualizar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JTextField txt_apellidos;
+    private javax.swing.JTextField txt_nombres;
+    private javax.swing.JTextField txt_password;
+    private javax.swing.JTextField txt_telefono;
+    private javax.swing.JTextField txt_usuario;
     // End of variables declaration//GEN-END:variables
+
+    private void CargarDatosUsuario() {
+        try {
+            // Establecer conexión con la base de datos
+            Connection conn = conexion.conectar();
+            Statement stmt = conn.createStatement();
+
+            // Consulta SQL para obtener los datos del usuario
+            String sql = "SELECT nombre, apellido, telefono, usuario_name, password FROM usuario WHERE id_Usuario = ?";
+            PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(sql);
+            pstmt.setInt(1, idUsuario); // Asignar el ID del usuario aquí
+
+            ResultSet rs = pstmt.executeQuery();
+
+            // Mostrar los datos en los campos de texto
+            if (rs.next()) {
+                txt_nombres.setText(rs.getString("nombre"));
+                txt_apellidos.setText(rs.getString("apellido"));
+                txt_telefono.setText(rs.getString("telefono"));
+                txt_usuario.setText(rs.getString("usuario_name"));
+                txt_password.setText(rs.getString("password"));
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontraron datos para el usuario con ID: " + idUsuario);
+            }
+
+            // Cerrar la conexión y el statement
+            rs.close();
+            pstmt.close();
+            conn.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
