@@ -58,7 +58,6 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
         btn_eliminar = new javax.swing.JButton();
         txt_buscar = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        btn_recargar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txt_nombres = new javax.swing.JTextField();
@@ -155,17 +154,6 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("A. MATERNO:");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 530, -1, 20));
-
-        btn_recargar.setBackground(new java.awt.Color(0, 153, 255));
-        btn_recargar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btn_recargar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_recargar.setText("RECARGAR");
-        btn_recargar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_recargarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btn_recargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 110, 30));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("N°PARTIDA:");
@@ -376,10 +364,6 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btn_actualizarActionPerformed
 
-    private void btn_recargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_recargarActionPerformed
-        this.CargarTablaPartidas();
-    }//GEN-LAST:event_btn_recargarActionPerformed
-
     private void txt_nombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nombresActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_nombresActionPerformed
@@ -473,7 +457,6 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
     private javax.swing.JButton btn_actualizar;
     private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_eliminar;
-    private javax.swing.JButton btn_recargar;
     private javax.swing.JComboBox<String> jComboBox_Partida;
     private javax.swing.JComboBox<String> jComboBox_filtro;
     private javax.swing.JComboBox<String> jComboBox_libro;
@@ -777,23 +760,45 @@ public class NewJInternalFrame_GestPartida extends javax.swing.JInternalFrame {
 
             try ( ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Object[] row = new Object[]{
-                        resultSet.getInt("id_Partida"),
-                        resultSet.getString("n_partida"),
-                        resultSet.getString("nombres"),
-                        resultSet.getString("apellido_pat"),
-                        resultSet.getString("apellido_mat"),
-                        resultSet.getString("folio"),
-                        resultSet.getString("anio"),
-                        resultSet.getString("tipoPartida")
-                    };
-                    model.addRow(row);
+                    Object fila[] = new Object[8];
+
+                    fila[0] = resultSet.getObject("id_Partida");
+                    fila[1] = resultSet.getObject("n_partida");
+                    fila[2] = resultSet.getObject("nombres");
+                    fila[3] = resultSet.getObject("apellido_pat");
+                    fila[4] = resultSet.getObject("apellido_mat");
+                    fila[5] = resultSet.getObject("folio");
+                    fila[6] = resultSet.getObject("anio");
+                    fila[7] = resultSet.getObject("tipoPartida");
+
+                    model.addRow(fila);
                 }
             }
+
+            // Agregar el MouseListener a la tabla
+            agregarListenerClicTabla(table, model);
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error al ejecutar la consulta", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void agregarListenerClicTabla(JTable table, DefaultTableModel model) {
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int filaSeleccionada = table.rowAtPoint(e.getPoint());
+                int columnaSeleccionada = 0;
+
+                if (filaSeleccionada > -1 && filaSeleccionada < model.getRowCount()) {
+                    int idPartida = (int) model.getValueAt(filaSeleccionada, columnaSeleccionada);
+                    System.out.println("Clic en la fila: " + idPartida);
+
+                    // Llama al método para enviar los datos de la partida
+                    EnviardatosPartida(idPartida);
+                }
+            }
+        });
     }
 
     private void LimpiarCampos() {
