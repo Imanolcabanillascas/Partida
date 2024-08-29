@@ -7,6 +7,7 @@ package vista;
 import controlador.Ctrl_Libro;
 import javax.swing.JOptionPane;
 import modelo.Libro;
+import vista.NewJInternalFrame_GestLibro;
 
 /**
  *
@@ -109,8 +110,13 @@ public class JInternalFrameAgregarLibro extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Error al guardar");
             }
         }
-
+        
         txt_anioLibro.setText("");
+         NewJInternalFrame_GestLibro frameGestLibro = new NewJInternalFrame_GestLibro();
+        frameGestLibro.recargarTablaLibros();
+        
+     
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txt_anioLibroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_anioLibroKeyPressed

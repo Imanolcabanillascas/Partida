@@ -4,11 +4,15 @@
  */
 package modelo;
 
+
+import java.util.Date;
+
 /**
  *
  * @author LENOVO
  */
 public class Partida {
+
     private int id_Partida;
     private String n_partida;
     private String nombres;
@@ -17,6 +21,7 @@ public class Partida {
     private String folio;
     private int id_Libro;
     private int id_tipoPartida;
+    private Date fecha_partida;
 
     public int getId_Partida() {
         return id_Partida;
@@ -82,6 +87,14 @@ public class Partida {
         this.id_tipoPartida = id_tipoPartida;
     }
 
+    public Date getFecha_partida() {
+        return fecha_partida;
+    }
+
+    public void setFecha_partida(Date fecha_partida) {
+        this.fecha_partida = fecha_partida;
+    }
+
     public Partida() {
         this.id_Partida = id_Partida;
         this.n_partida = n_partida;
@@ -91,7 +104,7 @@ public class Partida {
         this.folio = folio;
         this.id_Libro = id_Libro;
         this.id_tipoPartida = id_tipoPartida;
+        this.fecha_partida = fecha_partida;
     }
 
-    
 }
